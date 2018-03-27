@@ -4,6 +4,7 @@ import numpy as np
 class DGLM:
     pass
 
+
 class NormalDLM(DGLM):
     def __init__(self, structure, V):
         self._structure = structure

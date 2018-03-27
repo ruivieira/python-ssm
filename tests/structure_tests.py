@@ -10,9 +10,26 @@ from ssm.structure import UnivariateStructure
 import numpy as np
 
 
+def univariate_ll_structure_values_test():
+    """Test if the LL structure has the expected values
+    """
+    ll = UnivariateStructure.locally_linear(np.matrix([[1.3, 0], [0, 0.4]]))
+    assert_equals(ll.F[0, 0], 1, "F value not correct")
+    assert_equals(ll.F[0, 1], 0, "F value not correct")
+    assert_equals(ll.G[0, 0], 1, "G value not correct")
+    assert_equals(ll.G[0, 1], 1, "G value not correct")
+    assert_equals(ll.G[1, 0], 0, "G value not correct")
+    assert_equals(ll.G[1, 1], 1, "G value not correct")
+    assert_equals(ll.W[0, 0], 1.3, "W value not correct")
+    assert_equals(ll.W[0, 1], 0, "W value not correct")
+    assert_equals(ll.W[1, 0], 0, "W value not correct")
+    assert_equals(ll.W[1, 1], 0.4, "W value not correct")
+
+
 class StructureTests(unittest.TestCase):
     """Test suite for DGLM structures
     """
+
     def univariate_lc_structure_dimension_test(self):
         """Test if the LC structure has the expected dimensions.
         """
@@ -31,14 +48,16 @@ class StructureTests(unittest.TestCase):
         """Test if the LC structure has the expected values
         """
         lc = UnivariateStructure.locally_constant(1.3)
-        assert_equals(lc.F[0,0], 1, "F value not correct")
-        assert_equals(lc.G[0,0], 1, "G value not correct")
-        assert_equals(lc.W[0,0], 1.3, "W value not correct")
+        assert_equals(lc.F[0, 0], 1, "F value not correct")
+        assert_equals(lc.G[0, 0], 1, "G value not correct")
+        assert_equals(lc.W[0, 0], 1.3, "W value not correct")
 
     def univariate_ll_structure_dimension_test(self):
         """Test if the LL structure has the expected dimensions.
         """
-        ll = UnivariateStructure.locally_linear(np.matrix([[1.3, 0], [0, 0.4]]))
+        ll = UnivariateStructure.locally_linear(
+            np.matrix([[1.3, 0], [0, 0.4]])
+        )
 
         shape = ll.F.shape
         assert_equals(shape[0], 1, "F dimensions not correct")
@@ -50,29 +69,16 @@ class StructureTests(unittest.TestCase):
         assert_equals(shape[0], 2, "W dimensions not correct")
         assert_equals(shape[1], 2, "W dimensions not correct")
 
-    def univariate_ll_structure_values_test(self):
-        """Test if the LL structure has the expected values
-        """
-        ll = UnivariateStructure.locally_linear(np.matrix([[1.3, 0], [0, 0.4]]))
-        assert_equals(ll.F[0,0], 1, "F value not correct")
-        assert_equals(ll.F[0,1], 0, "F value not correct")
-        assert_equals(ll.G[0,0], 1, "G value not correct")
-        assert_equals(ll.G[0,1], 1, "G value not correct")
-        assert_equals(ll.G[1,0], 0, "G value not correct")
-        assert_equals(ll.G[1,1], 1, "G value not correct")
-        assert_equals(ll.W[0,0], 1.3, "W value not correct")
-        assert_equals(ll.W[0,1], 0, "W value not correct")
-        assert_equals(ll.W[1,0], 0, "W value not correct")
-        assert_equals(ll.W[1,1], 0.4, "W value not correct")
-
     def ll_lc_composition_dimension_test(self):
         """Test the dimensions of composing a LL and LC structure
         """
 
         lc = UnivariateStructure.locally_constant(1.0)
-        ll = UnivariateStructure.locally_linear(np.matrix([[1.3, 0], [0, 0.4]]))
+        ll = UnivariateStructure.locally_linear(
+            np.matrix([[1.3, 0], [0, 0.4]])
+        )
 
         composed = lc + ll
-        assert_equals(composed.F.shape, (1,3), "F dimensions not correct")
-        assert_equals(composed.G.shape, (3,3), "G dimensions not correct")
-        assert_equals(composed.W.shape, (3,3), "W dimensions not correct")
+        assert_equals(composed.F.shape, (1, 3), "F dimensions not correct")
+        assert_equals(composed.G.shape, (3, 3), "G dimensions not correct")
+        assert_equals(composed.W.shape, (3, 3), "W dimensions not correct")
