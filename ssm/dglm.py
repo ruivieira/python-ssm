@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.stats import multivariate_normal as mvn
 
 
 class DGLM:
@@ -11,9 +12,9 @@ class NormalDLM(DGLM):
         self._V = np.matrix([[V]])
 
     def state(self, previous):
-        mean = self._structure.G.dot(previous).A1
-        return np.random.multivariate_normal(mean, self._structure.W)
+        mean = np.squeeze(np.asarray(np.dot(self._structure.G, previous)))
+        return mvn(mean=mean, cov=self._structure.W).rvs()
 
     def observation(self, state):
-        mean = self._structure.F.dot(state).A1
-        return np.random.multivariate_normal(mean, self._V)
+        mean = np.dot(self._structure.F, state)
+        return mvn(mean=mean, cov=self._V).rvs()

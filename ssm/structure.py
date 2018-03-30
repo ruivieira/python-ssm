@@ -9,7 +9,7 @@ class UnivariateStructure:
         self.W = W
 
     def __add__(self, other):
-        F = np.hstack((self.F, other.F))
+        F = np.hstack((self.F.T, other.F.T)).T
         G = block_diag(*[self.G, other.G])
         W = block_diag(*[self.W, other.W])
 
@@ -24,7 +24,7 @@ class UnivariateStructure:
 
     @staticmethod
     def locally_linear(W):
-        F = np.matrix([[1, 0]])
+        F = np.matrix([[1], [0]])
         G = np.matrix([[1, 1], [0, 1]])
         return UnivariateStructure(F=F, G=G, W=W)
 

@@ -15,7 +15,7 @@ def univariate_ll_structure_values_test():
     """
     ll = UnivariateStructure.locally_linear(np.matrix([[1.3, 0], [0, 0.4]]))
     assert_equals(ll.F[0, 0], 1, "F value not correct")
-    assert_equals(ll.F[0, 1], 0, "F value not correct")
+    assert_equals(ll.F[1, 0], 0, "F value not correct")
     assert_equals(ll.G[0, 0], 1, "G value not correct")
     assert_equals(ll.G[0, 1], 1, "G value not correct")
     assert_equals(ll.G[1, 0], 0, "G value not correct")
@@ -60,8 +60,8 @@ class StructureTests(unittest.TestCase):
         )
 
         shape = ll.F.shape
-        assert_equals(shape[0], 1, "F dimensions not correct")
-        assert_equals(shape[1], 2, "F dimensions not correct")
+        assert_equals(shape[0], 2, "F dimensions not correct")
+        assert_equals(shape[1], 1, "F dimensions not correct")
         shape = ll.G.shape
         assert_equals(shape[0], 2, "G dimensions not correct")
         assert_equals(shape[1], 2, "G dimensions not correct")
@@ -79,6 +79,6 @@ class StructureTests(unittest.TestCase):
         )
 
         composed = lc + ll
-        assert_equals(composed.F.shape, (1, 3), "F dimensions not correct")
+        assert_equals(composed.F.shape, (3, 1), "F dimensions not correct")
         assert_equals(composed.G.shape, (3, 3), "G dimensions not correct")
         assert_equals(composed.W.shape, (3, 3), "W dimensions not correct")
