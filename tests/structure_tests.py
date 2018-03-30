@@ -4,7 +4,7 @@ This module contains tests for the DGLM structures
 """
 import unittest
 
-from nose.tools import assert_equals
+from nose.tools import assert_equals, assert_almost_equal
 
 from ssm.structure import UnivariateStructure
 import numpy as np
@@ -82,3 +82,17 @@ class StructureTests(unittest.TestCase):
         assert_equals(composed.F.shape, (3, 1), "F dimensions not correct")
         assert_equals(composed.G.shape, (3, 3), "G dimensions not correct")
         assert_equals(composed.W.shape, (3, 3), "W dimensions not correct")
+
+    def fourier_values_test(self):
+        """Test if the fourier structure has the expected values
+        """
+        c = 0.80901699
+        s = 0.58778525
+        W = np.identity(2)
+        structure = UnivariateStructure.cyclic_fourier(10, 1, W)
+        assert_equals(structure.F[0, 0], 1, "F value not correct")
+        assert_equals(structure.F[0, 1], 0, "F value not correct")
+        assert_almost_equal(structure.G[0, 0], c, places=7)
+        assert_almost_equal(structure.G[0, 1], s, places=7)
+        assert_almost_equal(structure.G[1, 0], -s, places=7)
+        assert_almost_equal(structure.G[1, 1], c, places=7)
