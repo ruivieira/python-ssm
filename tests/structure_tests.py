@@ -6,7 +6,7 @@ import unittest
 
 from nose.tools import assert_equals, assert_almost_equal
 
-from ssm.structure import UnivariateStructure
+from pssm.structure import UnivariateStructure
 import numpy as np
 
 

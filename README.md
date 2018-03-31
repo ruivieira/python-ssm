@@ -1,2 +1,2 @@
-# Python state-space models (pyssm)
+# Python state-space models (pssm)
 
