@@ -9,6 +9,7 @@ class UnivariateStructure:
         self.W = W
 
     def __add__(self, other):
+        # type: (UnivariateStructure) -> UnivariateStructure
         F = np.hstack((self.F.T, other.F.T)).T
         G = block_diag(*[self.G, other.G])
         W = block_diag(*[self.W, other.W])
@@ -17,6 +18,7 @@ class UnivariateStructure:
 
     @staticmethod
     def locally_constant(W):
+        # type: (float) -> UnivariateStructure
         F = np.matrix([[1]])
         G = np.matrix([[1]])
         W = np.matrix([[W]])
@@ -24,12 +26,14 @@ class UnivariateStructure:
 
     @staticmethod
     def locally_linear(W):
+        # type: (ndarray) -> UnivariateStructure
         F = np.matrix([[1], [0]])
         G = np.matrix([[1, 1], [0, 1]])
         return UnivariateStructure(F=F, G=G, W=W)
 
     @staticmethod
     def cyclic_fourier(period, harmonics, W):
+        # type: (int, int, ndarray) -> UnivariateStructure
         om = 2.0 * np.pi / period
         harmonic1 = np.identity(2) * np.cos(om)
         harmonic1[0, 1] = np.sin(om)

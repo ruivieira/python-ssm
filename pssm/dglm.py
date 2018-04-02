@@ -7,6 +7,9 @@ class DGLM:
 
 
 class NormalDLM(DGLM):
+    """
+    An instance of a Normal DLM
+    """
     def __init__(self, structure, V):
         self._structure = structure
         self._V = np.matrix([[V]])
