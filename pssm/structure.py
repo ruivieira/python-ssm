@@ -4,13 +4,25 @@ from scipy.linalg import block_diag
 
 class UnivariateStructure:
     def __init__(self, F, G, W):
-        self.F = F
-        self.G = G
-        self.W = W
+        self._F = F
+        self._G = G
+        self._W = W
+
+    @property
+    def F(self):
+        return self._F
+
+    @property
+    def G(self):
+        return self._G
+
+    @property
+    def W(self):
+        return self._W
 
     def __add__(self, other):
         # type: (UnivariateStructure) -> UnivariateStructure
-        F = np.hstack((self.F.T, other.F.T)).T
+        F = np.vstack((self.F, other.F))
         G = block_diag(*[self.G, other.G])
         W = block_diag(*[self.W, other.W])
 
@@ -48,6 +60,6 @@ class UnivariateStructure:
         else:
             G = harmonic1
 
-        F = np.matrix([[1.0, 0.0] * harmonics])
+        F = np.transpose(np.matrix([[1.0, 0.0] * harmonics]))
 
         return UnivariateStructure(F=F, G=G, W=W)

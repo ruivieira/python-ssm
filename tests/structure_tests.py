@@ -10,22 +10,6 @@ from pssm.structure import UnivariateStructure
 import numpy as np
 
 
-def univariate_ll_structure_values_test():
-    """Test if the LL structure has the expected values
-    """
-    ll = UnivariateStructure.locally_linear(np.matrix([[1.3, 0], [0, 0.4]]))
-    assert_equals(ll.F[0, 0], 1, "F value not correct")
-    assert_equals(ll.F[1, 0], 0, "F value not correct")
-    assert_equals(ll.G[0, 0], 1, "G value not correct")
-    assert_equals(ll.G[0, 1], 1, "G value not correct")
-    assert_equals(ll.G[1, 0], 0, "G value not correct")
-    assert_equals(ll.G[1, 1], 1, "G value not correct")
-    assert_equals(ll.W[0, 0], 1.3, "W value not correct")
-    assert_equals(ll.W[0, 1], 0, "W value not correct")
-    assert_equals(ll.W[1, 0], 0, "W value not correct")
-    assert_equals(ll.W[1, 1], 0.4, "W value not correct")
-
-
 class StructureTests(unittest.TestCase):
     """Test suite for DGLM structures
     """
@@ -51,6 +35,22 @@ class StructureTests(unittest.TestCase):
         assert_equals(lc.F[0, 0], 1, "F value not correct")
         assert_equals(lc.G[0, 0], 1, "G value not correct")
         assert_equals(lc.W[0, 0], 1.3, "W value not correct")
+
+    def univariate_ll_structure_values_test(self):
+        """Test if the LL structure has the expected values
+        """
+        ll = UnivariateStructure.locally_linear(
+            np.matrix([[1.3, 0], [0, 0.4]]))
+        assert_equals(ll.F[0, 0], 1, "F value not correct")
+        assert_equals(ll.F[1, 0], 0, "F value not correct")
+        assert_equals(ll.G[0, 0], 1, "G value not correct")
+        assert_equals(ll.G[0, 1], 1, "G value not correct")
+        assert_equals(ll.G[1, 0], 0, "G value not correct")
+        assert_equals(ll.G[1, 1], 1, "G value not correct")
+        assert_equals(ll.W[0, 0], 1.3, "W value not correct")
+        assert_equals(ll.W[0, 1], 0, "W value not correct")
+        assert_equals(ll.W[1, 0], 0, "W value not correct")
+        assert_equals(ll.W[1, 1], 0.4, "W value not correct")
 
     def univariate_ll_structure_dimension_test(self):
         """Test if the LL structure has the expected dimensions.
@@ -91,7 +91,7 @@ class StructureTests(unittest.TestCase):
         W = np.identity(2)
         structure = UnivariateStructure.cyclic_fourier(10, 1, W)
         assert_equals(structure.F[0, 0], 1, "F value not correct")
-        assert_equals(structure.F[0, 1], 0, "F value not correct")
+        assert_equals(structure.F[1, 0], 0, "F value not correct")
         assert_almost_equal(structure.G[0, 0], c, places=7)
         assert_almost_equal(structure.G[0, 1], s, places=7)
         assert_almost_equal(structure.G[1, 0], -s, places=7)
