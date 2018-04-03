@@ -28,4 +28,4 @@ class KalmanFilter:
 
         new_m = a + K.A1 * e
         new_C = R - K * Q * K.T
-        return (new_m, new_C)
+        return new_m, new_C

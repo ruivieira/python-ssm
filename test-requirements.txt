@@ -3,5 +3,3 @@ mock
 nose
 tox
 coverage
-typing
-mypy
