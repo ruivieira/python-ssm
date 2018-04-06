@@ -6,5 +6,7 @@ A Python package for state-space models. Basic usage in the [example notebooks](
 
 # Features
 
- - [x] Dynamic Linear Models
- - [x] Model composition
+  - [x] Dynamic Linear Models
+  - [x] Model composition
+  - [ ] Filters
+     - [x] Kalman filter 
