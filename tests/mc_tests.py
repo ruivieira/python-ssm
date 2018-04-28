@@ -4,7 +4,7 @@ This module contains tests for the DGLM structures
 """
 import unittest
 
-from nose.tools import assert_equals, assert_almost_equal
+from nose.tools import assert_equals
 
 from pssm.mc import FFBS
 from pssm.filters import KalmanFilter
