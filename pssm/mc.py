@@ -17,14 +17,20 @@ class FFBS:
         self._nobs = len(data)
 
     @staticmethod
+    def backward_sampling_step(theta, m, C, W):
+        _inv = inv(C + W)
+        mean = m + np.dot(C, np.dot(_inv, theta - m).A1).A1
+        cov = C - C * np.transpose(C * _inv)
+
+        return mvn(mean=mean, cov=cov).rvs()
+
+    @staticmethod
     def backward_sampling(ms, Cs, W):
         T = len(ms) - 1
-        theta = mvn(mean=ms[T], cov=Cs[T]).rvs()
+        theta = mvn(mean=np.asarray(ms[T]), cov=Cs[T]).rvs()
         thetas = [theta]
-        for t in reversed(range(T - 1)):
-            mean = ms[t] + Cs[t] * inv(Cs[t] + W) * (theta - ms[t])
-            cov = Cs[t] - Cs[t] * np.transpose(Cs[t] * inv(Cs[t] + W))
-            theta = mvn(mean=mean, cov=cov).rvs()
+        for t in reversed(range(1, T)):
+            theta = FFBS.backward_sampling_step(theta, ms[t], Cs[t], W)
             thetas.append(theta)
         return list(reversed(thetas))
 
@@ -53,7 +59,7 @@ class FFBS:
         for t in range(1, n):
             ssy[t] = np.power(self._data[t] - np.dot(Ft, thetas[t]), 2.0)
             sstheta[t] = np.power(
-                thetas[t] - self._structure.G * thetas[t - 1], 2.0)
+                thetas[t] - np.dot(self._structure.G, thetas[t - 1]), 2.0)
 
         v_rate = self._vprior + 0.5 * sum(ssy)
         _V = invgamma(self._vprior + 0.5 * n, scale=v_rate).rvs()

@@ -1,19 +1,31 @@
+from abc import ABCMeta, abstractmethod
 import numpy as np
 from scipy.stats import multivariate_normal as mvn
 
 
-class DGLM:
-    pass
+class DLM:
+
+    __metaclass__ = ABCMeta
+
+    def __init__(self, structure):
+        self._structure = structure
+        self._Ft = np.transpose(structure.F)
+
+    def state(self, previous):
+        mean = np.squeeze(np.asarray(np.dot(self._structure.G, previous)))
+        return mvn(mean=mean, cov=self._structure.W).rvs()
+
+    @abstractmethod
+    def observation(self, state): pass
 
 
-class NormalDLM(DGLM):
+class NormalDLM(DLM):
     """
     An instance of a Normal DLM
     """
     def __init__(self, structure, V):
-        self._structure = structure
+        super().__init__(structure)
         self._V = np.matrix([[V]])
-        self._Ft = np.transpose(structure.F)
 
     def state(self, previous):
         mean = np.squeeze(np.asarray(np.dot(self._structure.G, previous)))
