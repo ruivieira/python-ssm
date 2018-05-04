@@ -6,7 +6,9 @@ A Python package for state-space models. Basic usage in the [example notebooks](
 
 # Features
 
-  - [x] Dynamic Linear Models
+  - [ ] Dynamic Generalised Linear Models
+     - [x] Normal DLM
+     - [x] Poisson DLM
   - [x] Model composition
   - [ ] Filters
      - [x] Kalman filter 
