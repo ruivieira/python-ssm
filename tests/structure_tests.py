@@ -5,7 +5,9 @@ This module contains tests for the DGLM structures
 import unittest
 
 from nose.tools import assert_equals, assert_almost_equal
+from nose.tools.nontrivial import raises
 
+from pssm.dglm import NormalDLM
 from pssm.structure import UnivariateStructure
 import numpy as np
 
@@ -35,6 +37,16 @@ class StructureTests(unittest.TestCase):
         assert_equals(lc.F[0, 0], 1, "F value not correct")
         assert_equals(lc.G[0, 0], 1, "G value not correct")
         assert_equals(lc.W[0, 0], 1.3, "W value not correct")
+
+    @raises(ValueError)
+    def univariate_lc_state_dimension_mismatch_test(self):
+        """
+        Test if a state of wrong dimensions throws an exception
+        """
+        lc = UnivariateStructure.locally_constant(1.0)
+        dlm = NormalDLM(structure=lc, V=1.4)
+        state0 = np.array([0, 0])
+        dlm.observation(state0)
 
     def univariate_ll_structure_values_test(self):
         """Test if the LL structure has the expected values

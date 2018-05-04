@@ -1,6 +1,7 @@
 import abc
 import numpy as np
-from scipy.stats import multivariate_normal as mvn
+from scipy.stats import multivariate_normal as mvn, poisson
+import math
 
 ABC = abc.ABCMeta('ABC', (object,), {'__slots__': ()})
 
@@ -40,3 +41,7 @@ class PoissonDLM(DLM):
 
     def __init__(self, structure):
         super(PoissonDLM, self).__init__(structure)
+
+    def observation(self, state):
+        mean = math.exp(np.asscalar(np.dot(self._Ft, state)))
+        return poisson(mean).rvs()
