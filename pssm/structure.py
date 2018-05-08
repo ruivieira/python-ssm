@@ -46,6 +46,11 @@ class UnivariateStructure:
     @staticmethod
     def arma(p, betas, W):
         # type: (ndarray, List[float], float) -> UnivariateStructure
+        if p < 1:
+            raise ValueError("`p` must be 1 or higher.")
+        if len(betas) != p:
+            raise ValueError("`betas` must have `p` elements.")
+
         F = np.transpose(np.matrix([[1.0] + [0.0] * (p - 1)]))
         if p == 1:  # can simplify for ARMA(1)
             G = np.identity(p) * betas[0]

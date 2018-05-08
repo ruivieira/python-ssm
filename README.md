@@ -9,6 +9,10 @@ A Python package for state-space models. Basic usage in the [example notebooks](
   - [ ] Dynamic Generalised Linear Models
      - [x] Normal DLM
      - [x] Poisson DLM
-  - [x] Model composition
+  - [ ] Model composition
+     - [x] Locally constant
+     - [x] Locally linear
+     - [x] Cyclic Fourier
+     - [x] ARMA(*p*)
   - [ ] Filters
      - [x] Kalman filter 

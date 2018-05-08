@@ -81,6 +81,43 @@ class StructureTests(unittest.TestCase):
         assert_equals(shape[0], 2, "W dimensions not correct")
         assert_equals(shape[1], 2, "W dimensions not correct")
 
+    def univariate_arma1_structure_dimension_test(self):
+        """Test if the ARMA(1) structure has the expected dimensions.
+        """
+        arma1 = UnivariateStructure.arma(p=1, betas=[0.2], W=0.3)
+        assert_equals(arma1.F.shape, (1,1), "F dimensions not correct")
+        assert_equals(arma1.G.shape, (1,1), "G dimensions not correct")
+        assert_equals(arma1.W.shape, (1,1), "W dimensions not correct")
+
+    def univariate_arma2_structure_dimension_test(self):
+        """Test if the ARMA(2) structure has the expected dimensions.
+        """
+        arma1 = UnivariateStructure.arma(p=2, betas=[0.2]*2, W=0.3)
+        assert_equals(arma1.F.shape, (2,1), "F dimensions not correct")
+        assert_equals(arma1.G.shape, (2,2), "G dimensions not correct")
+        assert_equals(arma1.W.shape, (2,2), "W dimensions not correct")
+
+    def univariate_arma10_structure_dimension_test(self):
+        """Test if the ARMA(10) structure has the expected dimensions.
+        """
+        arma1 = UnivariateStructure.arma(p=10, betas=[0.2]*10, W=0.3)
+        assert_equals(arma1.F.shape, (10,1), "F dimensions not correct")
+        assert_equals(arma1.G.shape, (10,10), "G dimensions not correct")
+        assert_equals(arma1.W.shape, (10,10), "W dimensions not correct")
+
+    @raises(ValueError)
+    def univariate_arma_invalid_p_test(self):
+        """Invalid p in ARMA(p) must raise ValueError.
+        """
+        arma = UnivariateStructure.arma(p=0, betas=[0.2], W=0.3)
+
+    @raises(ValueError)
+    def univariate_arma_betas_mismatch_test(self):
+        """Betas dimension mismatch must raise ValueError
+        """
+        arma = UnivariateStructure.arma(p=2, betas=[0.2]*3, W=0.3)
+
+
     def ll_lc_composition_dimension_test(self):
         """Test the dimensions of composing a LL and LC structure
         """
