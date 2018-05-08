@@ -44,6 +44,20 @@ class UnivariateStructure:
         return UnivariateStructure(F=F, G=G, W=W)
 
     @staticmethod
+    def arma(p, betas, W):
+        # type: (ndarray, List[float], float) -> UnivariateStructure
+        F = np.transpose(np.matrix([[1.0] + [0.0] * (p - 1)]))
+        if p == 1:  # can simplify for ARMA(1)
+            G = np.identity(p) * betas[0]
+        else:
+            G = np.identity(p-1)
+            G = np.hstack((G, np.zeros((p-1, 1))))
+            G = np.vstack((betas, G))
+        _W = np.zeros((p, p))
+        _W[0, 0] = W
+        return UnivariateStructure(F=F, G=G, W=_W)
+
+    @staticmethod
     def cyclic_fourier(period, harmonics, W):
         # type: (int, int, ndarray) -> UnivariateStructure
         om = 2.0 * np.pi / period

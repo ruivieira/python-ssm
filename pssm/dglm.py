@@ -14,7 +14,7 @@ class DLM(ABC):
 
     def state(self, previous):
         mean = np.squeeze(np.asarray(np.dot(self._structure.G, previous)))
-        return mvn(mean=mean, cov=self._structure.W).rvs()
+        return mvn(mean=mean, cov=self._structure.W, allow_singular=True).rvs()
 
     @abc.abstractmethod
     def observation(self, state): pass
