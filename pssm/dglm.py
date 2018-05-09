@@ -3,6 +3,8 @@ import numpy as np
 from scipy.stats import multivariate_normal as mvn, poisson
 import math
 
+from pssm.utils import ilogit
+
 ABC = abc.ABCMeta('ABC', (object,), {'__slots__': ()})
 
 
@@ -45,3 +47,17 @@ class PoissonDLM(DLM):
     def observation(self, state):
         mean = math.exp(np.asscalar(np.dot(self._Ft, state)))
         return poisson(mean).rvs()
+
+
+class BinomialDLM(DLM):
+    """
+    An instance of a Binomial DLM
+    """
+
+    def __init__(self, structure, categories=1):
+        super(BinomialDLM, self).__init__(structure)
+        self._categories = categories
+
+    def observation(self, state):
+        eta = ilogit(np.asscalar(np.dot(self._Ft, state)))
+        return np.random.binomial(n=self._categories, p=eta)

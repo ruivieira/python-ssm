@@ -1,1 +1,1 @@
-__all__ = ['SSM', 'structure']
+__all__ = ['SSM', 'structure', 'utils', 'dglm']
