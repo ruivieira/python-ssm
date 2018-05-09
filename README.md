@@ -9,6 +9,7 @@ A Python package for state-space models. Basic usage in the [example notebooks](
   - [ ] Dynamic Generalised Linear Models
      - [x] Normal DLM
      - [x] Poisson DLM
+     - [x] Binomial DLM
   - [ ] Model composition
      - [x] Locally constant
      - [x] Locally linear
