@@ -15,5 +15,8 @@ A Python package for state-space models. Basic usage in the [example notebooks](
      - [x] Locally linear
      - [x] Cyclic Fourier
      - [x] ARMA(*p*)
+  - [ ] Multivariate
+     - [x] Composite DGLMs
+     - [ ] Multivariate Gaussian
   - [ ] Filters
      - [x] Kalman filter 
