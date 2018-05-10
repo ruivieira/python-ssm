@@ -1,3 +1,7 @@
+# 0.0.9
+
+ - Support for multivariate (composite) DGLMs
+
 # 0.0.8
 
  - Support for Binomial DLMs
