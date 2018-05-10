@@ -19,7 +19,6 @@ class DLM(ABC):
     def structure(self):
         return self._structure
 
-
     @abc.abstractmethod
     def _eta(self, _lambda): pass
 
@@ -94,7 +93,8 @@ class CompositeDLM(DLM):
         pass
 
     def __init__(self, *dglms):
-        super(CompositeDLM, self).__init__(MultivariateStructure.build(*[dglm.structure for dglm in dglms]))
+        super(CompositeDLM, self).__init__(
+            MultivariateStructure.build(*[dglm.structure for dglm in dglms]))
         self._dglms = dglms
 
     def observation(self, state):

@@ -4,12 +4,11 @@ This module contains tests for the Composite DGLM models
 """
 import unittest
 
-from nose.tools import assert_equals, assert_almost_equal
-from nose.tools.nontrivial import raises
+import numpy as np
+from nose.tools import assert_equals
 
 from pssm.dglm import NormalDLM, CompositeDLM
 from pssm.structure import UnivariateStructure
-import numpy as np
 
 
 class CompositeTests(unittest.TestCase):
@@ -28,11 +27,11 @@ class CompositeTests(unittest.TestCase):
         composite = CompositeDLM(ndlm1, ndlm2)
 
         shape = composite.structure.F.shape
-        assert_equals(shape, (2,2), "F dimensions not correct")
+        assert_equals(shape, (2, 2), "F dimensions not correct")
         shape = composite.structure.G.shape
-        assert_equals(shape, (2,2), "G dimensions not correct")
+        assert_equals(shape, (2, 2), "G dimensions not correct")
         shape = composite.structure.W.shape
-        assert_equals(shape, (2,2), "W dimensions not correct")
+        assert_equals(shape, (2, 2), "W dimensions not correct")
 
     def composite_lc_state_dimension_test(self):
         """Test if the composite LC state has the expected dimensions.
@@ -79,11 +78,11 @@ class CompositeTests(unittest.TestCase):
         composite = CompositeDLM(ndlm1, ndlm2)
 
         shape = composite.structure.F.shape
-        assert_equals(shape, (3,2), "F dimensions not correct")
+        assert_equals(shape, (3, 2), "F dimensions not correct")
         shape = composite.structure.G.shape
-        assert_equals(shape, (3,3), "G dimensions not correct")
+        assert_equals(shape, (3, 3), "G dimensions not correct")
         shape = composite.structure.W.shape
-        assert_equals(shape, (3,3), "W dimensions not correct")
+        assert_equals(shape, (3, 3), "W dimensions not correct")
 
     def composite_lcll_state_dimension_test(self):
         """Test if the composite LC/LL state has the expected dimensions.
