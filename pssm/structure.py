@@ -55,8 +55,8 @@ class UnivariateStructure:
         if p == 1:  # can simplify for ARMA(1)
             G = np.identity(p) * betas[0]
         else:
-            G = np.identity(p-1)
-            G = np.hstack((G, np.zeros((p-1, 1))))
+            G = np.identity(p - 1)
+            G = np.hstack((G, np.zeros((p - 1, 1))))
             G = np.vstack((betas, G))
         _W = np.zeros((p, p))
         _W[0, 0] = W
@@ -82,3 +82,29 @@ class UnivariateStructure:
         F = np.transpose(np.matrix([[1.0, 0.0] * harmonics]))
 
         return UnivariateStructure(F=F, G=G, W=W)
+
+
+class MultivariateStructure:
+    def __init__(self, F, G, W):
+        self._F = F
+        self._G = G
+        self._W = W
+
+    @property
+    def F(self):
+        return self._F
+
+    @property
+    def G(self):
+        return self._G
+
+    @property
+    def W(self):
+        return self._W
+
+    @staticmethod
+    def build(*dglms):
+        _F = block_diag(*[model.F for model in dglms])
+        _G = block_diag(*[model.G for model in dglms])
+        _W = block_diag(*[model.W for model in dglms])
+        return MultivariateStructure(F=_F, G=_G, W=_W)
