@@ -1,3 +1,7 @@
+# 0.0.11
+
+DLMs can now be used as `iterator`s
+
 # 0.0.10
 
  - Support for multivariate (composite) DGLMs

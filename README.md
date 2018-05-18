@@ -10,6 +10,7 @@ A Python package for state-space models. Basic usage in the [example notebooks](
      - [x] Normal DLM
      - [x] Poisson DLM
      - [x] Binomial DLM
+     - [x] `iterator`
   - [ ] Model composition
      - [x] Locally constant
      - [x] Locally linear
