@@ -43,6 +43,9 @@ class DLM(ABC):
         mean = self._eta(np.dot(self._Ft, state))
         return self._sample_obs(mean)
 
+    def next(self):
+        return self.__next__()
+
     def __next__(self):
         self._current_state = self.state(self._current_state)
         obs = self.observation(self._current_state)
