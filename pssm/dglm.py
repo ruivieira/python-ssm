@@ -15,7 +15,7 @@ class DLM(ABC):
         self._structure = structure
         self._Ft = np.transpose(structure.F)
         if state_prior:
-           self._current_state = state_prior
+            self._current_state = state_prior
         else:
             self._current_state = np.zeros(structure.W.shape[0])
 
@@ -28,10 +28,12 @@ class DLM(ABC):
         return self._current_state
 
     @abc.abstractmethod
-    def _eta(self, _lambda): pass
+    def _eta(self, _lambda):
+        pass
 
     @abc.abstractmethod
-    def _sample_obs(self, mean): pass
+    def _sample_obs(self, mean):
+        pass
 
     def state(self, previous):
         mean = np.squeeze(np.asarray(np.dot(self._structure.G, previous)))
@@ -45,6 +47,7 @@ class DLM(ABC):
         self._current_state = self.state(self._current_state)
         obs = self.observation(self._current_state)
         return self._current_state, obs
+
 
 class NormalDLM(DLM):
     """
