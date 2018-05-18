@@ -57,8 +57,9 @@ class NormalDLM(DLM):
     An instance of a Normal DLM
     """
 
-    def __init__(self, structure, V):
-        super(NormalDLM, self).__init__(structure)
+    def __init__(self, structure, V, state_prior=None):
+        super(NormalDLM, self).__init__(structure=structure,
+                                        state_prior=state_prior)
         self._V = np.matrix([[V]])
 
     def _eta(self, _lambda):
@@ -73,8 +74,9 @@ class PoissonDLM(DLM):
     An instance of a Poisson DLM
     """
 
-    def __init__(self, structure):
-        super(PoissonDLM, self).__init__(structure)
+    def __init__(self, structure, state_prior=None):
+        super(PoissonDLM, self).__init__(structure=structure,
+                                         state_prior=state_prior)
 
     def _eta(self, _lambda):
         return math.exp(_lambda)
@@ -88,8 +90,9 @@ class BinomialDLM(DLM):
     An instance of a Binomial DLM
     """
 
-    def __init__(self, structure, categories=1):
-        super(BinomialDLM, self).__init__(structure)
+    def __init__(self, structure, categories=1, state_prior=None):
+        super(BinomialDLM, self).__init__(structure=structure,
+                                          state_prior=state_prior)
         self._categories = categories
 
     def _eta(self, _lambda):

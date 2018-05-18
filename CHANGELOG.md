@@ -1,3 +1,7 @@
+# 0.0.12
+
+Fixed DGLM default state prior
+
 # 0.0.11
 
 DLMs can now be used as `iterator`s
