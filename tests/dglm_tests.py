@@ -4,7 +4,7 @@ This module contains tests for the DGLMs
 """
 import unittest
 
-from nose.tools import assert_true
+from nose.tools import assert_true, assert_equal
 
 from pssm.dglm import NormalDLM, PoissonDLM
 from pssm.structure import UnivariateStructure
@@ -31,3 +31,31 @@ class DglmTests(unittest.TestCase):
         state0 = np.array([0])
         y = dglm.observation(state0)
         assert_true(np.isscalar(y), "Observation is not a scalar")
+
+    def univariate_lc_prior_dimensions_test(self):
+        """The default LC DLM state prior should have the correct dimensions
+        """
+        lc = UnivariateStructure.locally_constant(1.0)
+        dlm = NormalDLM(structure=lc, V=1.4)
+        assert_equal(dlm.current_state.shape, (1,),
+                     "Prior has the wrong dimensions")
+
+    def univariate_ll_prior_dimensions_test(self):
+        """The default LL DLM state prior should have the correct dimensions
+        """
+        ll = UnivariateStructure.locally_linear(np.eye(2))
+        dlm = NormalDLM(structure=ll, V=1.4)
+        assert_equal(dlm.current_state.shape, (2,),
+                     "Prior has the wrong dimensions")
+
+    def univariate_ll_iterator_dimensions_test(self):
+        """The LL DLM iterator result should have the correct dimensions
+        """
+        ll = UnivariateStructure.locally_linear(np.eye(2))
+        dlm = NormalDLM(structure=ll, V=1.4)
+        items = [next(dlm) for _ in range(10)]
+        print(items)
+        assert_equal(items[0][0].shape, (2,),
+                     "State has the wrong dimensions")
+        assert_equal(items[0][1].shape, (),
+                     "Observation has the wrong dimensions")
