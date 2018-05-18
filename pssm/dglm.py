@@ -11,19 +11,29 @@ ABC = abc.ABCMeta('ABC', (object,), {'__slots__': ()})
 
 class DLM(ABC):
 
-    def __init__(self, structure):
+    def __init__(self, structure, state_prior=None):
         self._structure = structure
         self._Ft = np.transpose(structure.F)
+        if state_prior:
+            self._current_state = state_prior
+        else:
+            self._current_state = np.zeros(structure.W.shape[0])
 
     @property
     def structure(self):
         return self._structure
 
-    @abc.abstractmethod
-    def _eta(self, _lambda): pass
+    @property
+    def current_state(self):
+        return self._current_state
 
     @abc.abstractmethod
-    def _sample_obs(self, mean): pass
+    def _eta(self, _lambda):
+        pass
+
+    @abc.abstractmethod
+    def _sample_obs(self, mean):
+        pass
 
     def state(self, previous):
         mean = np.squeeze(np.asarray(np.dot(self._structure.G, previous)))
@@ -32,6 +42,14 @@ class DLM(ABC):
     def observation(self, state):
         mean = self._eta(np.dot(self._Ft, state))
         return self._sample_obs(mean)
+
+    def next(self):
+        return self.__next__()
+
+    def __next__(self):
+        self._current_state = self.state(self._current_state)
+        obs = self.observation(self._current_state)
+        return self._current_state, obs
 
 
 class NormalDLM(DLM):
