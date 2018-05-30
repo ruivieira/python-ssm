@@ -1,3 +1,7 @@
+# 0.0.14
+
+* Passing CI
+
 # 0.0.13
 
 * Add check for empty state prior in DGLMs

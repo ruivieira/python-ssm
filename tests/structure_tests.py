@@ -155,4 +155,3 @@ class StructureTests(unittest.TestCase):
         assert_equals(s.F.shape, (21, 1), "F dimensions not correct")
         assert_equals(s.G.shape, (21, 21), "G dimensions not correct")
         assert_equals(s.W.shape, (21, 21), "W dimensions not correct")
-
