@@ -14,7 +14,7 @@ class DLM(ABC):
     def __init__(self, structure, state_prior=None):
         self._structure = structure
         self._Ft = np.transpose(structure.F)
-        if state_prior:
+        if state_prior is not None:
             self._current_state = state_prior
         else:
             self._current_state = np.zeros(structure.W.shape[0])

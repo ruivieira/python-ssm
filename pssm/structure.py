@@ -2,6 +2,10 @@ import numpy as np
 from scipy.linalg import block_diag
 
 
+class DimensionError(Exception):
+    pass
+
+
 class UnivariateStructure:
     def __init__(self, F, G, W):
         self._F = F

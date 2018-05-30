@@ -144,3 +144,15 @@ class StructureTests(unittest.TestCase):
         assert_almost_equal(structure.G[0, 1], s, places=7)
         assert_almost_equal(structure.G[1, 0], -s, places=7)
         assert_almost_equal(structure.G[1, 1], c, places=7)
+
+    def composition_test(self):
+        """Test if a complex composition has the correct dimensions
+        """
+        s1 = UnivariateStructure.locally_constant(0.01)
+        s2 = UnivariateStructure.cyclic_fourier(30, 5, np.eye(10)*0.1)
+        s3 = UnivariateStructure.cyclic_fourier(365, 5, np.eye(10)*1.7)
+        s = s1 + s2 + s3
+        assert_equals(s.F.shape, (21, 1), "F dimensions not correct")
+        assert_equals(s.G.shape, (21, 21), "G dimensions not correct")
+        assert_equals(s.W.shape, (21, 21), "W dimensions not correct")
+
