@@ -57,5 +57,5 @@ class DglmTests(unittest.TestCase):
         print(items)
         assert_equal(items[0][0].shape, (2,),
                      "State has the wrong dimensions")
-        assert_equal(items[0][1].shape, (),
-                     "Observation has the wrong dimensions")
+        assert_true(np.isscalar(items[0][1]),
+                    "Observation has the wrong dimensions")

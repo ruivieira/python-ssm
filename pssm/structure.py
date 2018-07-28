@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.linalg import block_diag
+from pssm.utils import block_diag
 
 
 class DimensionError(Exception):

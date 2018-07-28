@@ -1,6 +1,8 @@
 import abc
 import numpy as np
-from scipy.stats import multivariate_normal as mvn, poisson
+from numpy.random import multivariate_normal as mvn
+from numpy.random import normal
+from numpy.random import poisson
 import math
 
 from pssm.utils import ilogit
@@ -36,8 +38,9 @@ class DLM(ABC):
         pass
 
     def state(self, previous):
-        mean = np.squeeze(np.asarray(np.dot(self._structure.G, previous)))
-        return mvn(mean=mean, cov=self._structure.W, allow_singular=True).rvs()
+        mean = np.atleast_1d(np.squeeze(np.asarray(
+            np.dot(self._structure.G, previous))))
+        return mvn(mean=mean, cov=self._structure.W)
 
     def observation(self, state):
         mean = self._eta(np.dot(self._Ft, state))
@@ -66,7 +69,7 @@ class NormalDLM(DLM):
         return _lambda
 
     def _sample_obs(self, mean):
-        return mvn(mean=mean, cov=self._V).rvs()
+        return np.asscalar(normal(loc=mean, scale=self._V))
 
 
 class PoissonDLM(DLM):
@@ -82,7 +85,7 @@ class PoissonDLM(DLM):
         return math.exp(_lambda)
 
     def _sample_obs(self, mean):
-        return poisson(mean).rvs()
+        return poisson(mean)
 
 
 class BinomialDLM(DLM):

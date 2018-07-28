@@ -11,7 +11,7 @@ from pssm.filters import KalmanFilter
 from pssm.dglm import NormalDLM
 from pssm.structure import UnivariateStructure
 import numpy as np
-from scipy.stats import multivariate_normal as mvn
+from numpy.random import multivariate_normal as mvn
 
 
 class FFBSTests(unittest.TestCase):
@@ -27,7 +27,7 @@ class FFBSTests(unittest.TestCase):
         # the initial state prior
         m0 = np.array([0])
         C0 = np.matrix([[1]])
-        state0 = mvn(m0, C0).rvs()
+        state0 = mvn(m0, C0)
 
         lc['states'] = [state0]
 
@@ -47,7 +47,7 @@ class FFBSTests(unittest.TestCase):
         # the initial state prior
         m0 = np.array([0, 0])
         C0 = np.identity(2)
-        state0 = mvn(m0, C0).rvs()
+        state0 = mvn(m0, C0)
 
         ll['states'] = [state0]
 
@@ -92,7 +92,7 @@ class FFBSTests(unittest.TestCase):
             Cs.append(C)
 
         states = FFBS.backward_sampling(ms, Cs, np.identity(1))
-        assert_equals(states[50].shape, ())
+        assert_equals(states[50].shape, (1,))
 
     def univariate_ll_bs_elements_test(self):
         """Test how many states LL BS returns

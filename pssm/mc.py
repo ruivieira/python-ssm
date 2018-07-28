@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.linalg import inv
-from scipy.stats import invgamma
-from scipy.stats import multivariate_normal as mvn
+from numpy.random import gamma
+from numpy.random import multivariate_normal as mvn
 
 from pssm.filters import KalmanFilter
 
@@ -22,12 +22,12 @@ class FFBS:
         mean = m + np.dot(C, np.dot(_inv, theta - m).A1).A1
         cov = C - C * np.transpose(C * _inv)
 
-        return mvn(mean=mean, cov=cov).rvs()
+        return mvn(mean=mean, cov=cov)
 
     @staticmethod
     def backward_sampling(ms, Cs, W):
         T = len(ms) - 1
-        theta = mvn(mean=np.asarray(ms[T]), cov=Cs[T]).rvs()
+        theta = mvn(mean=np.atleast_1d(ms[T]), cov=np.atleast_2d(Cs[T]))
         thetas = [theta]
         for t in reversed(range(1, T)):
             theta = FFBS.backward_sampling_step(theta, ms[t], Cs[t], W)
@@ -62,11 +62,11 @@ class FFBS:
                 thetas[t] - np.dot(self._structure.G, thetas[t - 1]), 2.0)
 
         v_rate = self._vprior + 0.5 * sum(ssy)
-        _V = invgamma(self._vprior + 0.5 * n, scale=v_rate).rvs()
+        _V = 1.0 / gamma(self._vprior + 0.5 * n, scale=v_rate)
 
         w_rate = [self._vprior + 0.5 * d for d in sstheta.sum(axis=0)]
         _W = np.diag(
-            [invgamma(prior + 0.5 * n, scale=scale).rvs()
+            [1.0 / gamma(prior + 0.5 * n, scale=scale)
              for scale, prior in zip(w_rate, self._wprior)])
 
         if states:
