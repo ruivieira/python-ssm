@@ -1,3 +1,7 @@
+# 0.0.15
+
+* Removed `scipy` dependency.
+
 # 0.0.14
 
 * Passing CI
