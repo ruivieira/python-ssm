@@ -69,7 +69,7 @@ class NormalDLM(DLM):
         return _lambda
 
     def _sample_obs(self, mean):
-        y = normal(loc=mean, scale=self._V) 
+        y = normal(loc=mean, scale=self._V)
         return y if np.isscalar(y) else np.asscalar(y)
 
 
