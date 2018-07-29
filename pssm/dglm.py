@@ -1,9 +1,9 @@
 import abc
+import math
 import numpy as np
 from numpy.random import multivariate_normal as mvn
 from numpy.random import normal
 from numpy.random import poisson
-import math
 
 from pssm.utils import ilogit
 from pssm.structure import MultivariateStructure
@@ -69,7 +69,8 @@ class NormalDLM(DLM):
         return _lambda
 
     def _sample_obs(self, mean):
-        return np.asscalar(normal(loc=mean, scale=self._V))
+        y = normal(loc=mean, scale=self._V) 
+        return y if np.isscalar(y) else np.asscalar(y)
 
 
 class PoissonDLM(DLM):

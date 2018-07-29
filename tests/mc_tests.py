@@ -6,12 +6,13 @@ import unittest
 
 from nose.tools import assert_equals
 
+import numpy as np
+from numpy.random import multivariate_normal as mvn
+
 from pssm.mc import FFBS
 from pssm.filters import KalmanFilter
 from pssm.dglm import NormalDLM
 from pssm.structure import UnivariateStructure
-import numpy as np
-from numpy.random import multivariate_normal as mvn
 
 
 class FFBSTests(unittest.TestCase):

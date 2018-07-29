@@ -5,10 +5,9 @@ This module contains tests for the DGLMs
 import unittest
 
 from nose.tools import assert_true, assert_equal
-
+import numpy as np
 from pssm.dglm import NormalDLM, PoissonDLM
 from pssm.structure import UnivariateStructure
-import numpy as np
 
 
 class DglmTests(unittest.TestCase):

@@ -1,3 +1,7 @@
+# 0.0.16
+
+* Fixed version numbering
+
 # 0.0.15
 
 * Removed `scipy` dependency.
