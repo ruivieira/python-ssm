@@ -1,3 +1,4 @@
+"""Module defining different types of Dynamic Generalised Linear Models"""
 import abc
 import math
 import numpy as np
@@ -12,7 +13,7 @@ ABC = abc.ABCMeta('ABC', (object,), {'__slots__': ()})
 
 
 class DLM(ABC):
-
+    """Abstract Dynamic Linear Model class"""
     def __init__(self, structure, state_prior=None):
         self._structure = structure
         self._Ft = np.transpose(structure.F)
