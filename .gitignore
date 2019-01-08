@@ -224,3 +224,4 @@ venv.bak/
 .ipynb_checkpoints
 *.iml
 *.ipr
+.vscode
