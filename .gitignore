@@ -225,3 +225,4 @@ venv.bak/
 *.iml
 *.ipr
 .vscode
+.scannerwork

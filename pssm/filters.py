@@ -1,15 +1,18 @@
+"""Filtering algorithms"""
 import numpy as np
-from numpy.linalg import inv
+import numpy.linalg as linalg
 
 
-class KalmanFilter:
+class KalmanFilter:  # pylint: disable=too-few-public-methods
+    """Kalman filter implementation"""
+
     def __init__(self, structure, V):
         self._structure = structure
         self._V = V
         self._Ft = np.transpose(self._structure.F)
 
     def _prior_state(self, m):
-        a = np.dot(self._structure.G, m).A1
+        a = np.asarray(np.dot(self._structure.G, m)).ravel()
         return a
 
     def _prior_covariance(self, C):
@@ -25,10 +28,11 @@ class KalmanFilter:
         return Q
 
     def _gain(self, R, Q):
-        K = R * self._structure.F * inv(Q)
+        K = R * self._structure.F * linalg.inv(Q)
         return K
 
     def filter(self, y, m, C):
+        """Filtering step"""
         # Predicted (a priori) state estimate
         a = self._prior_state(m)
 

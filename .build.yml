@@ -1,0 +1,23 @@
+image: fedora/32
+packages:
+  - python
+  - python-pip
+sources:
+  - https://git.sr.ht/~ruivieira/python-ssm
+tasks:
+  - setup: |
+      cd python-ssm
+      pip install -r requirements.txt --user --progress-bar off
+      pip install -r requirements-test.txt --user --progress-bar off
+  - lint: |
+      cd python-ssm
+      pylint $(git ls-files '*.py')
+  - typing: |
+      cd python-ssm
+      mypy $(git ls-files '*.py')
+  - format: |
+      cd python-ssm
+      black $(git ls-files '*.py')
+  - test: |
+      cd python-ssm
+      nosetests -v -s

@@ -1,0 +1,9 @@
+flake8
+mock
+nose
+tox
+coverage
+pylint
+mypy
+data-science-types
+black

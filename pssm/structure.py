@@ -1,12 +1,18 @@
+"""Module defining DGLM structures"""
+from __future__ import annotations
+from typing import List
+from math import cos, sin
 import numpy as np
 from pssm.utils import block_diag
 
 
 class DimensionError(Exception):
-    pass
+    """Dimension error exception"""
 
 
 class UnivariateStructure:
+    """A univariate structure"""
+
     def __init__(self, F, G, W):
         self._F = F
         self._G = G
@@ -14,14 +20,17 @@ class UnivariateStructure:
 
     @property
     def F(self):
+        """Return the F matrix"""
         return self._F
 
     @property
     def G(self):
+        """Return the G matrix"""
         return self._G
 
     @property
     def W(self):
+        """Return the W matrix"""
         return self._W
 
     def __add__(self, other):
@@ -33,29 +42,28 @@ class UnivariateStructure:
         return UnivariateStructure(F=F, G=G, W=W)
 
     @staticmethod
-    def locally_constant(W):
-        # type: (float) -> UnivariateStructure
-        F = np.matrix([[1]])
-        G = np.matrix([[1]])
-        W = np.matrix([[W]])
-        return UnivariateStructure(F=F, G=G, W=W)
+    def locally_constant(W: float) -> UnivariateStructure:
+        """Create a locally constant univariate structure"""
+        return UnivariateStructure(
+            F=np.matrix([[1]]), G=np.matrix([[1]]), W=np.matrix([[W]])
+        )
 
     @staticmethod
-    def locally_linear(W):
-        # type: (ndarray) -> UnivariateStructure
+    def locally_linear(W: np.matrix) -> UnivariateStructure:
+        """Create a locally linear univariate structure"""
         F = np.matrix([[1], [0]])
         G = np.matrix([[1, 1], [0, 1]])
         return UnivariateStructure(F=F, G=G, W=W)
 
     @staticmethod
-    def arma(p, betas, W):
-        # type: (ndarray, List[float], float) -> UnivariateStructure
+    def arma(p: int, betas: np.ndarray, W: float) -> UnivariateStructure:
+        """Create a ARMA(p) structure"""
         if p < 1:
             raise ValueError("`p` must be 1 or higher.")
         if len(betas) != p:
             raise ValueError("`betas` must have `p` elements.")
 
-        F = np.transpose(np.matrix([[1.0] + [0.0] * (p - 1)]))
+        F = np.array([[1.0] + [0.0] * (p - 1)]).transpose()
         if p == 1:  # can simplify for ARMA(1)
             G = np.identity(p) * betas[0]
         else:
@@ -67,14 +75,16 @@ class UnivariateStructure:
         return UnivariateStructure(F=F, G=G, W=_W)
 
     @staticmethod
-    def cyclic_fourier(period, harmonics, W):
-        # type: (int, int, ndarray) -> UnivariateStructure
-        om = 2.0 * np.pi / period
-        harmonic1 = np.identity(2) * np.cos(om)
-        harmonic1[0, 1] = np.sin(om)
+    def cyclic_fourier(
+        period: int, harmonics: int, W: np.matrix
+    ) -> UnivariateStructure:
+        """Create a seasonal (Fourier) structure"""
+        omega = 2.0 * np.pi / period
+        harmonic1: np.ndarray = np.identity(2) * cos(omega)
+        harmonic1[0, 1] = sin(omega)
         harmonic1[1, 0] = -harmonic1[0, 1]
 
-        _G = [None] * harmonics
+        _G: List[np.ndarray] = [np.empty([1, 1])] * harmonics
         _G[0] = np.copy(harmonic1)
         if harmonics > 1:
             for i in np.arange(1, harmonics):
@@ -83,12 +93,14 @@ class UnivariateStructure:
         else:
             G = harmonic1
 
-        F = np.transpose(np.matrix([[1.0, 0.0] * harmonics]))
+        F = np.array([[1.0, 0.0] * harmonics]).transpose()
 
         return UnivariateStructure(F=F, G=G, W=W)
 
 
 class MultivariateStructure:
+    """Create a multivariate structure"""
+
     def __init__(self, F, G, W):
         self._F = F
         self._G = G
@@ -96,18 +108,22 @@ class MultivariateStructure:
 
     @property
     def F(self):
+        """Return the F matrix"""
         return self._F
 
     @property
     def G(self):
+        """Return the G matrix"""
         return self._G
 
     @property
     def W(self):
+        """Return the W matrix"""
         return self._W
 
     @staticmethod
     def build(*dglms):
+        """Build the structure"""
         _F = block_diag(*[model.F for model in dglms])
         _G = block_diag(*[model.G for model in dglms])
         _W = block_diag(*[model.W for model in dglms])
