@@ -2,22 +2,21 @@
 
 This module contains tests for the Composite DGLM models
 """
+# pylint: disable=no-self-use
 import unittest
 
 import numpy as np
-from nose.tools import assert_equals
+from nose.tools import assert_equals  # type: ignore
 
 from pssm.dglm import NormalDLM, CompositeDLM
 from pssm.structure import UnivariateStructure
 
 
 class CompositeTests(unittest.TestCase):
-    """Test suite for composite DGLM structures
-    """
+    """Test suite for composite DGLM structures"""
 
     def composite_lc_structure_dimension_test(self):
-        """Test if the composite LC structure has the expected dimensions.
-        """
+        """Test if the composite LC structure has the expected dimensions."""
         lc1 = UnivariateStructure.locally_constant(1.0)
         lc2 = UnivariateStructure.locally_constant(1.0)
 
@@ -34,8 +33,7 @@ class CompositeTests(unittest.TestCase):
         assert_equals(shape, (2, 2), "W dimensions not correct")
 
     def composite_lc_state_dimension_test(self):
-        """Test if the composite LC state has the expected dimensions.
-        """
+        """Test if the composite LC state has the expected dimensions."""
         lc1 = UnivariateStructure.locally_constant(1.0)
         lc2 = UnivariateStructure.locally_constant(1.0)
 
@@ -50,8 +48,7 @@ class CompositeTests(unittest.TestCase):
         assert_equals(shape, (2,), "state dimensions not correct")
 
     def composite_lc_obs_dimension_test(self):
-        """Test if the composite LC observation has the expected dimensions.
-        """
+        """Test if the composite LC observation has the expected dimensions."""
         lc1 = UnivariateStructure.locally_constant(1.0)
         lc2 = UnivariateStructure.locally_constant(1.0)
 
@@ -67,8 +64,7 @@ class CompositeTests(unittest.TestCase):
         assert_equals(shape, (2,), "observation dimensions not correct")
 
     def composite_lcll_structure_dimension_test(self):
-        """Test if the composite LC/LL structure has the expected dimensions.
-        """
+        """Test if the composite LC/LL structure has the expected dimensions."""
         lc = UnivariateStructure.locally_constant(1.0)
         ll = UnivariateStructure.locally_linear(np.eye(2))
 
@@ -85,8 +81,7 @@ class CompositeTests(unittest.TestCase):
         assert_equals(shape, (3, 3), "W dimensions not correct")
 
     def composite_lcll_state_dimension_test(self):
-        """Test if the composite LC/LL state has the expected dimensions.
-        """
+        """Test if the composite LC/LL state has the expected dimensions."""
         lc = UnivariateStructure.locally_constant(1.0)
         ll = UnivariateStructure.locally_linear(np.eye(2))
 
@@ -100,8 +95,7 @@ class CompositeTests(unittest.TestCase):
         assert_equals(state.shape, (3,), "state dimensions not correct")
 
     def composite_lcll_obs_dimension_test(self):
-        """Test if the composite LC/LL observation has the expected dimensions.
-        """
+        """Test if the composite LC/LL observation has the expected dimensions."""
         lc = UnivariateStructure.locally_constant(1.0)
         ll = UnivariateStructure.locally_linear(np.eye(2))
 

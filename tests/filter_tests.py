@@ -2,9 +2,10 @@
 
 This module contains tests for the filtering methods
 """
+# pylint: disable=no-self-use
 import unittest
 
-from nose.tools import assert_equals
+from nose.tools import assert_equals  # type: ignore
 
 import numpy as np
 from pssm.filters import KalmanFilter
@@ -13,12 +14,10 @@ from pssm.structure import UnivariateStructure
 
 
 class StructureTests(unittest.TestCase):
-    """Test suite for DGLM structures
-    """
+    """Test suite for DGLM structures"""
 
     def univariate_lc_filter_dimension_test(self):
-        """Test if the KF output has LC dimensions.
-        """
+        """Test if the KF output has LC dimensions."""
         lc = UnivariateStructure.locally_constant(1.0)
 
         m0 = np.array([0])
@@ -30,11 +29,8 @@ class StructureTests(unittest.TestCase):
         assert_equals(C.shape, (1, 1), "Second moment dimensions are wrong")
 
     def univariate_ll_filter_dimension_test(self):
-        """Test if the KF output has LL dimensions.
-        """
-        ll = UnivariateStructure.locally_linear(
-            W=np.matrix([[0.1, 0], [0, 0.1]])
-        )
+        """Test if the KF output has LL dimensions."""
+        ll = UnivariateStructure.locally_linear(W=np.matrix([[0.1, 0], [0, 0.1]]))
         print(ll.F.shape)
 
         m0 = np.array([0, 0])

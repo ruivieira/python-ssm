@@ -1,0 +1,3 @@
+[FORMAT]
+# Good variable names which should always be accepted, separated by a comma
+good-names=_F,F,Ft,_Ft,_G,G,m0,m,ms,_C0,C0,C,Cs,new_C,_W,W,V,_V,i,t,T,y,ys,a,R,e,Q,K,p,x,r,c,rr,cc,n,lc,ll,kf,s,s1,s2,s3
