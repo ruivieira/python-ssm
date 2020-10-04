@@ -7,6 +7,8 @@
 
 A Python package for state-space models. Basic usage in the [example notebooks](docs/state_space_models.ipynb).
 
+Documentation can be found [here](https://ruivieira.github.io/python-ssm/).
+
 # Features
 
 - [ ] Dynamic Generalised Linear Models
